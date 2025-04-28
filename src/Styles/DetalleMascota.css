@@ -1,0 +1,94 @@
+/* DetallesMascota.css */
+.detalle-mascota-container {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #f5f5f5;
+}
+
+.detalle-header {
+    background-color: #1357FF;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.detalle-content {
+    padding: 20px;
+    position: relative;
+}
+
+.field-row {
+    display: flex;
+    margin-bottom: 12px;
+    align-items: center;
+}
+
+.field-row label {
+    flex: 0 0 120px;
+    font-weight: 500;
+}
+
+.field-row input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid #dbdbdb;
+    border-radius: 4px;
+    background-color: white;
+}
+
+.mascota-imagen {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 130px;
+    height: 130px;
+    overflow: hidden;
+    border-radius: 4px;
+    border: 1px solid #dbdbdb;
+}
+
+.mascota-imagen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.actions-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+}
+
+.button {
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+}
+
+.button.is-danger {
+    background-color: #ff0000;
+    color: white;
+}
+
+.button.is-primary {
+    background-color: #1357FF;
+    color: white;
+}
+
+.button.is-rounded {
+    border-radius: 290486px;
+}
+
+.icon {
+    margin-right: 8px;
+}
+
+/* Asegúrate de incluir Font Awesome o el CDN de Bulma para los iconos */

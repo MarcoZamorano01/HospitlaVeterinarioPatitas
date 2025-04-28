@@ -1,0 +1,114 @@
+/* PetList.css */
+
+.pet-management-container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 0 15px;
+  }
+  
+  .title {
+    color: #2361FF;
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+/* PetList.css */
+.top-buttons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  justify-content: flex-start;
+}
+
+.top-buttons input {
+  padding: 8px 15px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  width: 200px;
+}
+
+.top-buttons input:focus {
+  outline: none;
+  border-color: #2361FF;
+}
+  
+  .top-buttons .button {
+    background-color: #2361FF;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 20px;
+  }
+  
+  .table-container {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  th{
+    color: white;
+  }
+  
+  .table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+  
+  .table thead tr {
+    background-color: #2361FF;
+    
+  }
+  
+  .table th {
+    padding: 12px 15px;
+    text-align: left;
+    font-weight: bold;
+  }
+  
+  .table tbody tr {
+    background-color: #E3E3E3;
+  }
+  
+  .table td {
+    padding: 15px 20px;
+    border-bottom: 1px solid #ffffff;
+  }
+  
+  .action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .action-buttons .button.is-success {
+    background-color: #4CD07D;
+    border: none;
+    margin-bottom: 5px;
+  }
+  
+  .action-buttons .button.is-info {
+    background-color: #3C9EF7;
+    border: none;
+  }
+  .action-buttons .button.is-primary {
+    background-color: #4CC590;
+    border: none;
+  }
+  .action-buttons .button.is-danger {
+    background-color: #ff0000;
+    border: none;
+  }
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .action-buttons {
+      flex-direction: column;
+    }
+    
+    .action-buttons .button {
+      width: 100%;
+      margin-bottom: 5px;
+    }
+  }

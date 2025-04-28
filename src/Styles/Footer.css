@@ -1,0 +1,40 @@
+.footer {
+    background-color: #1B5BFA;
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+.footer .column {
+    padding: 1rem;
+}
+
+.footer a {
+    color: white;
+    margin: 5px;
+    transition: color 0.3s, transform 0.3s;
+}
+
+.footer a:hover {
+    color: #00D1B2;
+    transform: scale(1.1);
+}
+
+.footer i {
+    font-size: 2rem;
+    margin: 10px;
+    transition: color 0.5s;
+}
+
+.footer i:hover {
+    color: #00D1B2;
+}
+
+#derechos{
+    color: white;
+}

@@ -1,0 +1,229 @@
+/* VeterinaryClinic.css */
+
+.veterinary-clinic-container {
+    width: 100%;
+}
+
+
+/* Promotions Section */
+.promotions-section {
+    padding: 40px 20px;
+    background-color: #f8f8f8;
+}
+
+.promotions-title {
+    text-align: center;
+    color: #00a8cc;
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+}
+
+.promotions-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.promotion-card {
+    width: 100%;
+    max-width: 500px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.blue-card {
+    background-color: #003366;
+}
+
+.cyan-card {
+    background-color: #00a8cc;
+}
+
+.promotion-content {
+    padding: 20px;
+    color: white;
+    text-align: center;
+}
+
+.promotion-content h4 {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.promotion-image {
+    width: 100%;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.promotion-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.info-button {
+    background-color: #1B5BFA;
+    color: #ffffff;
+    border: none;
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.info-button:hover {
+    background-color: #00B89C;
+    color: white;
+}
+
+/* Features Section */
+.features-section {
+    padding: 40px 20px;
+    background-color: white;
+}
+
+.features-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.feature-card {
+    background-color: #00a8cc;
+    color: white;
+    padding: 30px 20px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 250px;
+    text-align: center;
+}
+
+.feature-icon {
+    font-size: 2rem;
+    margin-bottom: 15px;
+    color: white;
+}
+
+.feature-card h4 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.feature-card p {
+    font-size: 0.9rem;
+}
+
+/* Services Section */
+.services-section {
+    padding: 40px 20px;
+    background-color: #f8f8f8;
+}
+
+.services-header {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 40px;
+}
+
+.services-header h3 {
+    color: #00a8cc;
+    font-size: 1.8rem;
+    margin-bottom: 5px;
+}
+
+.services-header h4 {
+    color: #00a8cc;
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+}
+
+.services-header p {
+    color: #666;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.service-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.service-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.3s;
+}
+
+.service-item:hover img {
+    transform: scale(1.05);
+}
+
+.service-item span {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #00a8cc;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-text h1 {
+        font-size: 2rem;
+    }
+
+    .hero-text h2 {
+        font-size: 1.2rem;
+    }
+
+    .promotions-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .features-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .feature-card {
+        max-width: 100%;
+    }
+
+    .services-grid {
+        grid-template-columns: 1fr;
+    }
+}

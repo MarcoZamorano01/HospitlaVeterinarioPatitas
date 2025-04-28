@@ -1,0 +1,64 @@
+.sobre-nosotros {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+p, li, strong {
+    color: #000000;
+}
+
+.introduccion, .mision-vision, .equipo, .tecnologias, .contacto {
+    margin-bottom: 20px;
+}
+
+ul {
+    list-style-type: disc;
+    padding-left: 20px;
+}
+
+.title {
+
+    font-family: Yellowtail;
+    font-size: 50px;
+    color: #1B5BFA;
+    margin-bottom: 0;
+}
+
+.subtitulo{
+    font-size: 20px;
+    color: #000000;
+    font-weight: bold;
+}
+
+
+.objetivos {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.introduccion, .objetivos-especificos, .metodologia, .conclusion {
+    margin-bottom: 20px;
+}
+
+@keyframes fadeInUp {
+    0% {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.title, h1 {
+    animation: fadeInUp 0.5s ease forwards;
+    opacity: 0; /* Comienza oculto */
+}
+
+
+

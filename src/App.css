@@ -1,0 +1,266 @@
+/* Variables de color y fuentes */
+:root {
+  --color-primary: #1B5BFA; /* Cambié el color primario */
+  --color-secondary: #000000;
+  --footer-bg: #1B5BFA; /* Cambié el color del footer */
+  --font-roboto: 'Roboto', sans-serif; /* Fuente más profesional */
+  --font-open-sans: 'Open Sans', sans-serif; /* Fuente más profesional */
+  --font-lato: 'Lato', sans-serif; /* Fuente más profesional */
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-open-sans); /* Fuente predeterminada para el cuerpo */
+}
+
+.title {
+  color: var(--color-primary);
+  font-family: var(--font-montserrat), sans-serif; /* Fuente profesional para títulos */
+  font-size: 60px;
+}
+
+.title1, .subtitle {
+  color: var(--color-primary);
+  font-family: var(--font-montserrat), sans-serif; /* Fuente profesional para títulos */
+}
+
+.title1 {
+  font-size: 120px;
+}
+
+.subtitle {
+  font-family: var(--font-roboto), sans-serif; /* Fuente más profesional para subtítulos */
+  font-size: 80px;
+}
+
+.mensaje {
+  color: var(--color-secondary);
+  font-family: var(--font-lato), sans-serif; /* Fuente más profesional para mensajes */
+  font-size: 30px;
+  text-align: center;
+}
+
+.TITULO, .SUBTITULO {
+  color:rgb(255, 255, 255);
+  font-family: var(--font-montserrat), sans-serif; /* Fuente profesional para títulos */
+}
+
+.TITULO {
+  font-size: 90px;
+}
+
+.SUBTITULO {
+  font-family: var(--font-roboto), sans-serif; /* Fuente más profesional para subtítulos */
+  font-size: 40px;
+}
+
+.MENSSAJE {
+  color:rgb(255, 255, 255);
+  font-family: var(--font-lato), sans-serif; /* Fuente más profesional para mensajes */
+  font-size: 20px;
+  text-align: center;
+}
+
+.hero-background {
+  height: 50px;
+  position: relative; /* Necesario para el posicionamiento del pseudo-elemento */
+  background-image: url('/src/Images/FondoPrincipal.png'); /* Reemplaza con la ruta de tu imagen */
+  background-size: cover; /* Para que la imagen cubra toda la sección */
+  background-position: center; /* Centrar la imagen */
+  background-repeat: no-repeat; /* Evitar que se repita la imagen */
+}
+
+.hero-background::before {
+  content: ''; /* No se requiere texto, solo una capa */
+  position: absolute; /* Para posicionarlo encima de la imagen */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Capa negra con opacidad para oscurecer */
+  z-index: 2; /* Asegúrate de que esté encima de la imagen pero debajo del contenido */
+}
+
+.hero-background > * {
+  position: relative; /* Asegura que el contenido de la sección esté encima de la capa oscura */
+  z-index: 2; /* Asegura que el contenido quede por encima de la capa oscura */
+}
+
+
+
+/* Carousel Styles */
+.carousel-section {
+  position: relative;
+  overflow: hidden;
+  height: 60vh;
+  margin-bottom: 2rem;
+}
+
+.hero-carousel {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.carousel-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.carousel-item {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.carousel-item.active {
+  opacity: 1;
+}
+
+.carousel-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.carousel-controls {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.carousel-indicators {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+}
+
+.indicator.active {
+  background-color: white;
+}
+
+.prev-button,
+.next-button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+/* Information Columns Styles */
+.info-columns {
+  padding: 3rem 1.5rem;
+}
+
+.info-card {
+  height: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  background: #E3E3E3;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.info-card:hover {
+  transform: translateY(-5px);
+}
+
+.info-card .title {
+  font-size: 35px;
+  color: #1B5BFA;
+  padding: 1.5rem;
+  margin-bottom: 0;
+}
+
+.card-image {
+  position: relative; /* Necesario para que la imagen absoluta se posicione dentro de este contenedor */
+  overflow: hidden; /* Para evitar que la imagen sobresalga */
+}
+
+.card-image img {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Asegura que la imagen cubra el contenedor */
+}
+
+.content {
+  padding: 1.5rem;
+  flex-grow: 1;
+}
+
+.content p {
+  color: #000000;
+  line-height: 1.6;
+}
+
+.card-footer {
+  padding: 1rem;
+}
+
+.card-footer .button {
+  font-size: 16px;
+  padding: 0.75rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+  color: white;
+  background-color: #1B5BFA;
+}
+
+.card-footer .button:hover {
+  color: rgb(255, 255, 255);
+  background-color: #007bff;
+}
+
+#linksPrincipal{
+  font-size: 16px;
+  padding: 0.75rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+  color: white;
+  background-color: #1B5BFA;
+}
+
+#linksPrincipal:hover{
+  color: rgb(255, 255, 255);
+  background-color: #4CC590;
+}
+
+
+@keyframes fadeInUp {
+  0% {
+      transform: translateY(20px);
+      opacity: 0;
+  }
+  100% {
+      transform: translateY(0);
+      opacity: 1;
+  }
+}
+
+.title, .title1, .subtitle {
+  animation: fadeInUp 1.5s ease forwards;
+  opacity: 0; /* Comienza oculto */
+}

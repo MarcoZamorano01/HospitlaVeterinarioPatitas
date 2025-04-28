@@ -1,0 +1,113 @@
+/* PetConfirmation.css */
+
+.pet-confirmation-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    background-color: #f5f5f5;
+}
+
+.confirmation-card {
+    width: 100%;
+    max-width: 480px;
+    background-color: #e9e9e9;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.confirmation-header {
+    background-color: #1357FF;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.confirmation-header h1 {
+    margin: 0;
+}
+
+.confirmation-content {
+    padding: 20px;
+}
+
+.confirmation-icons {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.check-icon {
+    width: 80px;
+    height: 80px;
+    background-color: #1357FF;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.check-icon .icon {
+    font-size: 40px;
+    color: white;
+}
+
+
+.confirmation-details {
+    margin-bottom: 20px;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #ddd;
+}
+
+.detail-label {
+    font-weight: bold;
+    color: #333;
+}
+
+.detail-value {
+    text-align: right;
+    color: #444;
+}
+
+.confirmation-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.button {
+    border-radius: 25px;
+    padding: 8px 20px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48%;
+}
+
+.button .icon {
+    margin-left: 5px;
+}
+
+.cancel-button {
+    background-color: #F01F1F !important;
+    border: none;
+}
+
+.download-button {
+    background-color: #1357FF !important;
+    border: none;
+}
