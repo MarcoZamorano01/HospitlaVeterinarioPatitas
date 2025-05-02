@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { db } from '../Data/Firebase'; // Asegúrate de tener Firestore importado
+import { doc, setDoc } from 'firebase/firestore'; // Para guardar en Firestore
 import '../Styles/Formularios.css';
 import Header from '../Components/Header';
 import Footer from '../Components/Footer';
@@ -8,21 +10,52 @@ const RegistrarMedicamentos = () => {
         nombre: '',
         dosis: '',
         stock: '',
-        precio: ''
+        precio: '',
+        estado: 'Activo', // Valor por defecto
     });
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({
             ...formData,
-            [name]: value
+            [name]: value,
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Formulario de medicamento enviado:', formData);
-        // Agrega tu lógica para enviar el formulario aquí
+
+        // Validación básica
+        if (!formData.nombre || !formData.dosis || !formData.stock || !formData.precio) {
+            alert('Por favor, llena todos los campos.');
+            return;
+        }
+
+        try {
+            // Guardar medicamento en Firestore
+            const docRef = doc(db, 'Medicamentos', formData.nombre); // Usamos el nombre como ID del documento
+            await setDoc(docRef, {
+                NombreMedicamento: formData.nombre,
+                Dosis: formData.dosis,
+                Stock: formData.stock,
+                Precio: parseFloat(formData.precio), // Convertir el precio a número decimal
+                Estado: formData.estado,
+            });
+
+            // Limpiar el formulario después de enviar
+            setFormData({
+                nombre: '',
+                dosis: '',
+                stock: '',
+                precio: '',
+                estado: 'Activo',
+            });
+
+            alert('Medicamento registrado correctamente');
+        } catch (error) {
+            console.error('Error al registrar medicamento:', error);
+            alert('Hubo un error al registrar el medicamento. Intenta de nuevo.');
+        }
     };
 
     const handleCancel = () => {
@@ -30,10 +63,10 @@ const RegistrarMedicamentos = () => {
             nombre: '',
             dosis: '',
             stock: '',
-            precio: ''
+            precio: '',
+            estado: 'Activo',
         });
         console.log('Formulario cancelado');
-        // Agrega tu lógica para cancelar aquí
     };
 
     return (
@@ -88,6 +121,19 @@ const RegistrarMedicamentos = () => {
                                 value={formData.precio}
                                 onChange={handleChange}
                             />
+                        </div>
+
+                        <div className="form-field">
+                            <label htmlFor="estado">Estado:</label>
+                            <select
+                                id="estado"
+                                name="estado"
+                                value={formData.estado}
+                                onChange={handleChange}
+                            >
+                                <option value="Activo">Activo</option>
+                                <option value="Desactivado">Desactivado</option>
+                            </select>
                         </div>
 
                         <div className="form-actions">

@@ -1,11 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../Styles/Listas.css';
 import Header from "../Components/Header";
 import Footer from "../Components/Footer";
 import { useNavigate } from 'react-router-dom'; // Importar useNavigate
+import { db } from '../Data/Firebase';  // Importar la configuración de Firebase
+import { collection, query, onSnapshot } from 'firebase/firestore';  // Importar las funciones necesarias de Firestore
+import PantallaCarga from '../Components/PantallaCarga';
 
 const HistorialMedico = () => {
     const navigate = useNavigate(); // Inicializar useNavigate
+
+    // Estado para almacenar las mascotas obtenidas desde Firestore
+    const [mascotas, setMascotas] = useState([]);
 
     // Estado para almacenar los filtros
     const [filters, setFilters] = useState({
@@ -16,20 +22,49 @@ const HistorialMedico = () => {
         fechaSalida: ''
     });
 
-    // Sample data
-    const pets = [
-        { id: 1, nombre: 'Fido', especie: 'Perro', raza: 'Pitbull', edad: '2 años', tutor: 'Carlos', fechaIngreso: '2025-01-15', fechaSalida: '2025-02-15' },
-        { id: 2, nombre: 'Luna', especie: 'Gato', raza: 'Siames', edad: '3 años', tutor: 'Laura', fechaIngreso: '2025-01-20', fechaSalida: '2025-02-20' },
-        { id: 3, nombre: 'Max', especie: 'Gato', raza: 'Labrador', edad: '1 año', tutor: 'Juan', fechaIngreso: '2025-02-01', fechaSalida: '2025-03-01' },
-        { id: 4, nombre: 'Bella', especie: 'Gato', raza: 'Persa', edad: '4 años', tutor: 'Sofia', fechaIngreso: '2025-03-01', fechaSalida: '2025-04-01' },
-        { id: 5, nombre: 'Fido', especie: 'Perro', raza: 'Pitbull', edad: '2 años', tutor: 'Carlos', fechaIngreso: '2025-04-10', fechaSalida: '2025-05-10' },
-        { id: 6, nombre: 'Milo', especie: 'Perro', raza: 'Beagle', edad: '2 años', tutor: 'Rosa', fechaIngreso: '2025-04-15', fechaSalida: '2025-05-15' },
-        { id: 7, nombre: 'Rex', especie: 'Perro', raza: 'Doberman', edad: '3 años', tutor: 'Ana', fechaIngreso: '2025-05-01', fechaSalida: '2025-06-01' },
-        { id: 8, nombre: 'Chester', especie: 'Gato', raza: 'Maine Coon', edad: '5 años', tutor: 'Javier', fechaIngreso: '2025-05-10', fechaSalida: '2025-06-10' },
-    ];
+    // Función para obtener las mascotas de Firestore
+    useEffect(() => {
+        const q = query(collection(db, "Mascotas"));
+
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
+            const mascotasArray = [];
+            querySnapshot.forEach((doc) => {
+                const mascotaData = doc.data();
+
+                let fechaIngreso = mascotaData.FechaIngreso || 'Fecha no disponible';
+                let fechaSalida = mascotaData.FechaSalida || 'Fecha no disponible';
+
+                // Si las fechas son de tipo Timestamp, convertimos a formato local
+                if (mascotaData.FechaIngreso && mascotaData.FechaIngreso.seconds) {
+                    fechaIngreso = new Date(mascotaData.FechaIngreso.seconds * 1000).toLocaleDateString();
+                }
+
+                if (mascotaData.FechaSalida && mascotaData.FechaSalida.seconds) {
+                    fechaSalida = new Date(mascotaData.FechaSalida.seconds * 1000).toLocaleDateString();
+                }
+
+                // Solo agregar la mascota si el estado es "Atendido"
+                if (mascotaData.Estado === "Atendido") {
+                    mascotasArray.push({
+                        id: doc.id,
+                        nombre: mascotaData.NombreMascota,
+                        especie: mascotaData.Especie,
+                        raza: mascotaData.Raza,  // Raza de la mascota
+                        edad: mascotaData.Edad,  // Edad de la mascota
+                        tutor: mascotaData.Tutor,
+                        fechaIngreso: fechaIngreso,  // Fecha de ingreso
+                        fechaSalida: fechaSalida,  // Fecha de salida
+                    });
+                }
+            });
+            setMascotas(mascotasArray); // Actualiza el estado con las mascotas "Atendido"
+        });
+
+        return () => unsubscribe();  // Limpiar la suscripción cuando el componente se desmonta
+    }, []);  // Este efecto solo se ejecutará una vez al montar el componente
 
     // Filtrar las mascotas según los criterios seleccionados
-    const filteredPets = pets.filter(pet => {
+    const filteredPets = mascotas.filter(pet => {
         return (
             (filters.nombre === '' || pet.nombre.toLowerCase().includes(filters.nombre.toLowerCase())) &&
             (filters.especie === '' || pet.especie.toLowerCase().includes(filters.especie.toLowerCase())) &&
@@ -50,13 +85,13 @@ const HistorialMedico = () => {
 
     // Manejar el botón de redirección
     const handleRedirect = () => {
-        
         navigate('/reporte');
     };
 
     return (
         <div>
             <Header />
+            <PantallaCarga />
             <div className="pet-management-container">
                 <h1 className="title">Historial Médico</h1>
                 <p>Puedes filtrar los historiales médicos por los siguientes campos:</p>
@@ -126,7 +161,7 @@ const HistorialMedico = () => {
                                     <td>{pet.nombre}</td>
                                     <td>{pet.especie}</td>
                                     <td>{pet.raza}</td>
-                                    <td>{pet.edad}</td>
+                                    <td>{pet.edad} años</td>
                                     <td>{pet.tutor}</td>
                                     <td>{pet.fechaIngreso}</td>
                                     <td>{pet.fechaSalida}</td>

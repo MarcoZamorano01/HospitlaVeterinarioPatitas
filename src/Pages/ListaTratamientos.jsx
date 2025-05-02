@@ -1,65 +1,84 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom'; // Importa el hook useNavigate
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; // Hook para la navegación
+import { db } from '../Data/Firebase'; // Asegúrate de importar la configuración de Firestore
+import { collection, query, onSnapshot } from 'firebase/firestore'; // Funciones de Firestore
 import '../Styles/Listas.css';
 import Header from "../Components/Header";
 import Footer from "../Components/Footer";
+import PantallaCarga from '../Components/PantallaCarga';
 
 const TratamientoList = () => {
-    const navigate = useNavigate(); // Usa el hook useNavigate para navegar
+    const [mascotas, setMascotas] = useState([]);  // Estado para almacenar las mascotas
+    const navigate = useNavigate();  // Hook para navegar
 
-    // Datos de ejemplo para tratamientos
-    const tratamientos = [
-        { id: 1, nombre: 'Tratamiento 1', especie: 'Perro', diagnosticos: 'Infección', tratamientos: 'Antibióticos', recordatorios: 'Cada 12 horas' },
-        { id: 2, nombre: 'Tratamiento 2', especie: 'Gato', diagnosticos: 'Alergia', tratamientos: 'Antihistamínico', recordatorios: 'Cada 24 horas' },
-        { id: 3, nombre: 'Tratamiento 3', especie: 'Perro', diagnosticos: 'Dolor', tratamientos: 'Analgésico', recordatorios: 'Cada 6 horas' },
-        { id: 4, nombre: 'Tratamiento 4', especie: 'Conejo', diagnosticos: 'Parásitos', tratamientos: 'Desparacitación', recordatorios: 'Cada 2 semanas' },
-        { id: 5, nombre: 'Tratamiento 5', especie: 'Gato', diagnosticos: 'Virus', tratamientos: 'Antivirales', recordatorios: 'Cada 8 horas' },
-        { id: 6, nombre: 'Tratamiento 6', especie: 'Perro', diagnosticos: 'Infección', tratamientos: 'Antibióticos', recordatorios: 'Cada 12 horas' },
-    ];
+    // Recuperar las mascotas desde Firestore
+    useEffect(() => {
+        const q = query(collection(db, "Mascotas"));
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
+            const mascotasData = [];
+            querySnapshot.forEach((doc) => {
+                // Suponemos que cada documento tiene los campos correspondientes
+                mascotasData.push({
+                    id: doc.id,  // ID de la mascota
+                    NombreMascota: doc.data().NombreMascota,
+                    especie: doc.data().Especie,
+                    diagnostico: doc.data().Diagnostico,
+                    tratamientos: doc.data().Tratamientos,
+                    recordatorios: doc.data().Recordatorios,
+                });
+            });
+            setMascotas(mascotasData);  // Guardar los datos en el estado
+        });
 
-    // Función para manejar la redirección al formulario de registro de tratamiento
-    const handleRegistrarTratamiento = () => {
-        navigate('/registrarTratamientos'); // Cambia '/registrar-tratamiento' por la ruta que desees
+        return () => unsubscribe();  // Limpiar la suscripción cuando el componente se desmonte
+    }, []);
+
+    // Función para manejar la redirección al formulario de edición de tratamiento
+    // En TratamientoList
+    const handleEditarTratamiento = (id) => {
+        navigate(`/registrar-tratamiento/${id}`); // Ahora pasamos el id como parte de la ruta
+    };
+
+
+    // Función para verificar si un valor está vacío o no definido y retornar un valor predeterminado
+    const getValor = (valor) => {
+        return valor && valor.trim() !== "" ? valor : "No Realizado";
     };
 
     return (
         <div>
             <Header />
+            <PantallaCarga />
             <div className="pet-management-container">
                 <h1 className="title">Lista de Tratamientos</h1>
-
-                <div className="top-buttons">
-                    <button className="button is-primary" onClick={handleRegistrarTratamiento}>
-                        <span>Agregar Tratamiento</span>
-                    </button>
-                </div>
-
+                {/* Tabla de tratamientos */}
                 <div className="table-container">
                     <table className="table is-fullwidth">
                         <thead>
                             <tr>
                                 <th>Nombre</th>
                                 <th>Especie</th>
-                                <th>Diagnósticos</th>
+                                <th>Diagnóstico</th>
                                 <th>Tratamientos</th>
                                 <th>Recordatorios</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {tratamientos.map(tratamiento => (
-                                <tr key={tratamiento.id}>
-                                    <td>{tratamiento.nombre}</td>
-                                    <td>{tratamiento.especie}</td>
-                                    <td>{tratamiento.diagnosticos}</td>
-                                    <td>{tratamiento.tratamientos}</td>
-                                    <td>{tratamiento.recordatorios}</td>
+                            {mascotas.map(mascota => (
+                                <tr key={mascota.id}>
+                                    <td>{getValor(mascota.NombreMascota)}</td>
+                                    <td>{getValor(mascota.especie)}</td>
+                                    <td>{getValor(mascota.diagnostico)}</td>
+                                    <td>{getValor(mascota.tratamientos)}</td>
+                                    <td>{getValor(mascota.recordatorios)}</td>
                                     <td className="action-buttons">
-                                        <button className="button is-small is-success">
+                                        {/* Botón para editar */}
+                                        <button className="button is-small is-success" onClick={() => handleEditarTratamiento(mascota.id)}>
                                             <span className="icon">
                                                 <i className="fas fa-edit"></i>
                                             </span>
-                                            <span>Editar</span>
+                                            <span>Tratar</span>
                                         </button>
                                     </td>
                                 </tr>

@@ -1,55 +1,44 @@
-/* DetallesMascota.css */
 .detalle-mascota-container {
     width: 100%;
-    max-width: 500px;
-    margin: 0 auto;
+    max-width: 900px; /* Aumentamos el ancho máximo para mejor visibilidad */
+    margin: 30px auto;
     border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    background-color: #f5f5f5;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    padding-bottom: 20px;
 }
 
 .detalle-header {
     background-color: #1357FF;
     color: white;
-    padding: 15px;
+    padding: 20px;
     text-align: center;
     font-weight: bold;
+    font-size: 24px;
 }
 
 .detalle-content {
-    padding: 20px;
-    position: relative;
-}
-
-.field-row {
+    padding: 25px;
     display: flex;
-    margin-bottom: 12px;
-    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px; /* Añadir espacio entre las columnas */
+    justify-content: space-between; /* Distribuir las columnas a lo largo del contenedor */
+    align-items: center; /* Alinear el contenido verticalmente */
 }
 
-.field-row label {
-    flex: 0 0 120px;
-    font-weight: 500;
-}
-
-.field-row input {
-    flex: 1;
-    padding: 8px 12px;
-    border: 1px solid #dbdbdb;
-    border-radius: 4px;
-    background-color: white;
+.text-column {
+    flex: 1 1 60%; /* La columna de texto ocupa el 60% del espacio */
 }
 
 .mascota-imagen {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    width: 130px;
-    height: 130px;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 4px solid #1357FF;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     overflow: hidden;
-    border-radius: 4px;
-    border: 1px solid #dbdbdb;
+    display: block;
 }
 
 .mascota-imagen img {
@@ -58,19 +47,30 @@
     object-fit: cover;
 }
 
+.detalle-content p {
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+.detalle-content strong {
+    color: #1357FF;
+}
+
 .actions-container {
     display: flex;
-    justify-content: space-between;
-    margin-top: 25px;
+    justify-content: center;
+    margin-top: 30px;
 }
 
 .button {
     border: none;
-    padding: 10px 20px;
+    padding: 12px 25px;
     cursor: pointer;
     font-weight: 500;
     display: flex;
     align-items: center;
+    border-radius: 30px;
+    font-size: 16px;
 }
 
 .button.is-danger {
@@ -78,17 +78,10 @@
     color: white;
 }
 
-.button.is-primary {
-    background-color: #1357FF;
-    color: white;
-}
-
 .button.is-rounded {
-    border-radius: 290486px;
+    border-radius: 30px;
 }
 
 .icon {
     margin-right: 8px;
 }
-
-/* Asegúrate de incluir Font Awesome o el CDN de Bulma para los iconos */

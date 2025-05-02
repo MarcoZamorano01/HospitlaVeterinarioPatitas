@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../Styles/Listas.css';
 import Header from "../Components/Header";
 import Footer from "../Components/Footer";
+import { useNavigate } from 'react-router-dom';
+import { db } from '../Data/Firebase';  // Importa la configuración de Firestore
+import { collection, query, onSnapshot } from 'firebase/firestore';  // Importa las funciones necesarias de Firestore
+import PantallaCarga from '../Components/PantallaCarga';
 
 const Calendario = () => {
     const [filters, setFilters] = useState({
@@ -12,50 +16,76 @@ const Calendario = () => {
         fechaSalida: ''
     });
 
-    const data = [
-        { id: 1, nombre: 'Fido', especie: 'Perro', raza: 'Pitbull', edad: '2 años', tutor: 'Carlos', fechaIngreso: '2025-01-15', fechaSalida: '2025-02-15', hora: '10:00' },
-        { id: 2, nombre: 'Luna', especie: 'Gato', raza: 'Siames', edad: '3 años', tutor: 'Laura', fechaIngreso: '2025-01-20', fechaSalida: '2025-02-20', hora: '11:30' },
-        { id: 3, nombre: 'Max', especie: 'Gato', raza: 'Labrador', edad: '1 año', tutor: 'Juan', fechaIngreso: '2025-02-01', fechaSalida: '2025-03-01', hora: '13:00' },
-        { id: 4, nombre: 'Bella', especie: 'Gato', raza: 'Persa', edad: '4 años', tutor: 'Sofia', fechaIngreso: '2025-03-01', fechaSalida: '2025-04-01', hora: '14:00' },
-        { id: 5, nombre: 'Fido', especie: 'Perro', raza: 'Pitbull', edad: '2 años', tutor: 'Carlos', fechaIngreso: '2025-04-10', fechaSalida: '2025-05-10', hora: '16:00' },
-        { id: 6, nombre: 'Milo', especie: 'Perro', raza: 'Beagle', edad: '2 años', tutor: 'Rosa', fechaIngreso: '2025-04-15', fechaSalida: '2025-05-15', hora: '18:00' },
-    ];
+    const [pets, setPets] = useState([]);  // Estado para almacenar los datos de las mascotas
+    const navigate = useNavigate();  // Para redirigir a la página de detalle de la mascota
 
-    const filteredData = data.filter(pet => {
+    // Función para formatear fecha
+    const formatDate = (timestamp) => {
+        // Si el valor de fecha es un Timestamp de Firestore, convertirlo a Date
+        if (timestamp && timestamp.seconds) {
+            const date = new Date(timestamp.seconds * 1000);  // Convertir a milisegundos
+            return date.toLocaleDateString();  // Formatear a "dd/mm/yyyy"
+        }
+        return '';  // Retornar una cadena vacía si no es una fecha válida
+    };
+
+    // Recuperar los datos de Firestore
+    useEffect(() => {
+        const q = query(collection(db, "Mascotas"));  // Consulta de la colección "Mascotas"
+        
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
+            const petsData = [];
+            querySnapshot.forEach((doc) => {
+                petsData.push({
+                    id: doc.id,
+                    nombre: doc.data().NombreMascota,
+                    especie: doc.data().Especie,
+                    raza: doc.data().Raza,
+                    edad: doc.data().Edad,
+                    tutor: doc.data().Tutor,
+                    fechaIngreso: doc.data().FechaIngreso,
+                    fechaSalida: doc.data().FechaSalida,
+                });
+            });
+            setPets(petsData);  // Establecer los datos obtenidos en el estado
+        });
+
+        return () => unsubscribe();  // Limpiar la suscripción cuando el componente se desmonte
+    }, []);
+
+    // Filtrar los datos según los filtros seleccionados
+    const filteredPets = pets.filter(pet => {
         return (
             (filters.nombre === '' || pet.nombre.toLowerCase().includes(filters.nombre.toLowerCase())) &&
             (filters.especie === '' || pet.especie.toLowerCase().includes(filters.especie.toLowerCase())) &&
             (filters.tutor === '' || pet.tutor.toLowerCase().includes(filters.tutor.toLowerCase())) &&
-            (filters.fechaIngreso === '' || pet.fechaIngreso.includes(filters.fechaIngreso)) &&
-            (filters.fechaSalida === '' || pet.fechaSalida.includes(filters.fechaSalida))
+            (filters.fechaIngreso === '' || pet.fechaIngreso.toLowerCase().includes(filters.fechaIngreso.toLowerCase())) &&
+            (filters.fechaSalida === '' || pet.fechaSalida.toLowerCase().includes(filters.fechaSalida.toLowerCase()))
         );
     });
 
+    // Manejar el cambio en los filtros
     const handleFilterChange = (e) => {
         const { name, value } = e.target;
         setFilters(prev => ({ ...prev, [name]: value }));
     };
 
+    // Manejar la redirección al detalle de la mascota
+    const handleViewDetails = (id) => {
+        navigate(`/detallesMascota/${id}`);  // Redirige a la página de detalles de la mascota con el ID
+    };
+
     return (
         <div>
             <Header />
+            <PantallaCarga/>
             <div className="pet-management-container">
                 <h1 className="title">Agenda de citas pendientes</h1>
-                <p>Aqui puedes revisar todos los pacientes que tenemos pendientes</p>
+                <p>Aquí puedes revisar todos los pacientes que tenemos pendientes</p>
                 <br />
 
-                {/* Botón Agregar */}
-                <div className="top-buttons">
-                    <button className="button is-primary">
-                        <span>Agregar Nueva Cita</span>
-                        <span className="icon">
-                            <i className="fas fa-plus-circle"></i>
-                        </span>
-                    </button>
-                </div>
-
                 {/* Filtros */}
-                <p>Puedes filtrar los historiales médicos por los siguientes campos:</p>
+                <p>Puedes filtrar las mascotas por los siguientes campos:</p>
                 <div className="top-buttons">
                     <input type="text" name="nombre" placeholder="Filtrar por Nombre" value={filters.nombre} onChange={handleFilterChange} />
                     <input type="text" name="especie" placeholder="Filtrar por Especie" value={filters.especie} onChange={handleFilterChange} />
@@ -64,7 +94,7 @@ const Calendario = () => {
                     <input type="date" name="fechaSalida" value={filters.fechaSalida} onChange={handleFilterChange} />
                 </div>
 
-                {/* Tabla combinada */}
+                {/* Tabla de mascotas */}
                 <div className="table-container">
                     <table className="table is-fullwidth">
                         <thead>
@@ -76,33 +106,25 @@ const Calendario = () => {
                                 <th>Tutor</th>
                                 <th>Fecha de Ingreso</th>
                                 <th>Fecha de Salida</th>
-                                <th>Hora</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {filteredData.map(pet => (
+                            {filteredPets.map(pet => (
                                 <tr key={pet.id}>
                                     <td>{pet.nombre}</td>
                                     <td>{pet.especie}</td>
                                     <td>{pet.raza}</td>
-                                    <td>{pet.edad}</td>
+                                    <td>{pet.edad} años</td>
                                     <td>{pet.tutor}</td>
-                                    <td>{pet.fechaIngreso}</td>
-                                    <td>{pet.fechaSalida}</td>
-                                    <td>{pet.hora}</td>
+                                    <td>{formatDate(pet.fechaIngreso)}</td>  {/* Convertir y formatear fecha de ingreso */}
+                                    <td>{formatDate(pet.fechaSalida)}</td>    {/* Convertir y formatear fecha de salida */}
                                     <td className="action-buttons">
-                                        <button className="button is-small is-info">
+                                        <button className="button is-small is-info" onClick={() => handleViewDetails(pet.id)}>
                                             <span className="icon">
                                                 <i className="fas fa-eye"></i>
                                             </span>
                                             <span>Ver</span>
-                                        </button>
-                                        <button className="button is-small is-success">
-                                            <span className="icon">
-                                                <i className="fas fa-edit"></i>
-                                            </span>
-                                            <span>Editar</span>
                                         </button>
                                     </td>
                                 </tr>

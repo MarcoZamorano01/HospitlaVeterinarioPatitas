@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import { auth } from '../Data/Firebase';
 import { signInWithEmailAndPassword } from "firebase/auth";
-import '../Styles/Login.css'; // Asegúrate de que los estilos estén correctamente importados
+import '../Styles/Login.css'; 
 
-export default function LoginPage() {
+export default function LoginVeterinario() {
     const navigate = useNavigate();
     const [values, setValues] = useState({ email: "", pass: "" });
     const [errorMsg, setErrorMsg] = useState("");
@@ -20,7 +20,7 @@ export default function LoginPage() {
         signInWithEmailAndPassword(auth, values.email, values.pass)
             .then(async (res) => {
                 setSubmitButtonDisabled(false);
-                navigate("/");
+                navigate("/mascotasPendientes");
             })
             .catch((err) => {
                 setSubmitButtonDisabled(false);

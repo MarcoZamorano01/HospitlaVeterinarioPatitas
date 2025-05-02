@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { db } from '../Data/Firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { useNavigate, useParams } from 'react-router-dom';
-import HeaderCliente from '../Components/HeaderCliente';
+import Header from '../Components/Header';
 import Footer from '../Components/Footer';
 import '../Styles/DetalleMascota.css';
 import PantallaCarga from '../Components/PantallaCarga';
 
-const DetallesMascota = () => {
+const DetallesMascotaVeterinario = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const [mascota, setMascota] = useState(null);
@@ -38,13 +38,13 @@ const DetallesMascota = () => {
     }, [id]);
 
     const handleCancelar = () => {
-        navigate('/misMascotas');
+        navigate('/mascotasPendientes');
     };
 
     if (!mascota) {
         return (
             <div>
-                <HeaderCliente />
+                <Header/>
                 <PantallaCarga/>
                 <Footer />
             </div>
@@ -53,7 +53,7 @@ const DetallesMascota = () => {
 
     return (
         <div>
-            <HeaderCliente />
+            <Header />
             <br />
             <div className="detalle-mascota-container">
                 <div className="detalle-header">
@@ -95,4 +95,4 @@ const DetallesMascota = () => {
     );
 };
 
-export default DetallesMascota;
+export default DetallesMascotaVeterinario;

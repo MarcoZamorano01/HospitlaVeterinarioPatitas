@@ -1,0 +1,72 @@
+/* Estilos para las tarjetas de información */
+.info-card {
+    display: flex;                  /* Usamos Flexbox para las columnas */
+    flex-direction: row;            /* Establece las columnas en fila (horizontal) */
+    background: #E3E3E3;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    height: 100%;                   /* Aseguramos que la tarjeta ocupe toda la altura */
+}
+
+.card-content {
+    display: flex;
+    flex-direction: row;            /* Alinea las columnas horizontalmente */
+    justify-content: space-between; /* Espacio entre las columnas */
+    padding: 1rem;                  /* Espaciado entre el contenido */
+    width: 100%;
+}
+
+.left-column {
+    flex: 1;                        /* Columna izquierda ocupará 1 parte del espacio */
+    display: flex;
+    justify-content: center;        /* Centra la imagen horizontalmente */
+    align-items: center;            /* Centra la imagen verticalmente */
+    padding: 10px;
+}
+
+.right-column {
+    flex: 2;                        /* Columna derecha ocupa 2 partes del espacio */
+    padding: 10px;
+}
+
+.pet-image {
+    max-width: 100%;                /* Asegura que la imagen no se desborde horizontalmente */
+    height: auto;                   /* La imagen mantiene su altura proporcional */
+    object-fit: contain;            /* Ajusta la imagen sin distorsionarla */
+    display: block;
+    border-radius: 8px;             /* Agrega bordes redondeados a la imagen */
+}
+
+/* Asegura que los botones tengan un estilo bonito */
+.card-footer .button {
+    font-size: 16px;
+    padding: 0.75rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+    color: white;
+    background-color: #1B5BFA;
+}
+
+.card-footer .button:hover {
+    color: rgb(255, 255, 255);
+    background-color: #007bff;
+}
+
+.mensaje {
+    margin-top: 1rem;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.title {
+    font-size: 30px;
+    color: #1B5BFA;
+    margin-bottom: 1rem;
+}
+
+.card-footer {
+    padding: 1rem;
+}

@@ -1,27 +1,51 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react'; 
+import { db } from '../Data/Firebase';  // Importa la configuración de Firebase
+import { collection, query, onSnapshot } from 'firebase/firestore';  // Importa las funciones necesarias de Firestore
+import { useNavigate } from 'react-router-dom';  // Importa navigate para redirigir
 import '../Styles/Listas.css';
 import Footer from "../Components/Footer";
 import HeaderCliente from '../Components/HeaderCliente';
+import PantallaCarga from '../Components/PantallaCarga';
 
 const MisMascotas = () => {
-    const navigate = useNavigate(); // Hook de navegación
+    const navigate = useNavigate();
+    const [mascotas, setMascotas] = useState([]); // Estado para almacenar las mascotas
 
-    // Datos de ejemplo para las consultas con estado
-    const consultas = [
-        { id: 1, nombre: 'Fido', especie: 'Perro', hora: '10:00 AM', tutor: 'Carlos', estado: 'En espera' },
-        { id: 2, nombre: 'Luna', especie: 'Gato', hora: '11:30 AM', tutor: 'Ana', estado: 'En consulta' },
-        { id: 3, nombre: 'Rex', especie: 'Perro', hora: '2:00 PM', tutor: 'Juan', estado: 'Atendido' },
-        { id: 4, nombre: 'Mía', especie: 'Conejo', hora: '4:00 PM', tutor: 'Luisa', estado: 'En espera' },
-        { id: 5, nombre: 'Max', especie: 'Perro', hora: '5:30 PM', tutor: 'Carlos', estado: 'Atendido' },
-    ];
+    // Función para obtener las mascotas de Firestore
+    useEffect(() => {
+        const q = query(collection(db, "Mascotas"));
+        
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
+            const mascotasArray = [];
+            querySnapshot.forEach((doc) => {
+                const mascotaData = doc.data();
+                mascotasArray.push({
+                    id: doc.id,  // Asegúrate de almacenar el ID del documento
+                    nombre: mascotaData.NombreMascota,
+                    especie: mascotaData.Especie,
+                    estado: mascotaData.Estado,
+                    foto: mascotaData.Foto,  // Se maneja como URL
+                });
+            });
+            setMascotas(mascotasArray); // Actualiza el estado con los datos obtenidos
+        });
 
+        return () => unsubscribe();  // Limpiar la suscripción cuando el componente se desmonta
+    }, []);  // Este efecto solo se ejecutará una vez al montar el componente
+
+    // Función para redirigir a la página de agregar nueva consulta
     const handleAgregarConsulta = () => {
-        navigate('/nuevaConsulta'); // Navegar a la pantalla nuevaConsulta
+        navigate('/nuevaConsulta');
+    };
+
+    // Función para redirigir a los detalles de la mascota según su ID
+    const handleVerDetalles = (id) => {
+        navigate(`/detallesMascota/${id}`);  // Redirige a la página de detalles de la mascota
     };
 
     return (
         <div>
+            <PantallaCarga/>
             <HeaderCliente />
             <div className="pet-management-container">
                 <h1 className="title">Mis Mascotas</h1>
@@ -38,31 +62,31 @@ const MisMascotas = () => {
                             <tr>
                                 <th>Nombre</th>
                                 <th>Especie</th>
-                                <th>Hora</th>
+                                <th>Foto</th>
                                 <th>Estado</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {consultas.map(consulta => (
-                                <tr key={consulta.id}>
-                                    <td>{consulta.nombre}</td>
-                                    <td>{consulta.especie}</td>
-                                    <td>{consulta.hora}</td>
-                                    <td>{consulta.estado}</td>
+                            {mascotas.map((mascota) => (
+                                <tr key={mascota.id}>
+                                    <td>{mascota.nombre}</td>
+                                    <td>{mascota.especie}</td>
+                                    <td>
+                                        <img src={mascota.foto} alt={mascota.nombre} style={{ width: '50px', height: '50px', borderRadius: '50%' }} />
+                                    </td>
+                                    <td>{mascota.estado}</td>
                                     <td className="action-buttons">
-                                        <button className="button is-small is-info">
+                                        <button 
+                                            className="button is-small is-info"
+                                            onClick={() => handleVerDetalles(mascota.id)} // Llamada a la función con el ID
+                                        >
                                             <span className="icon">
                                                 <i className="fas fa-eye"></i>
                                             </span>
                                             <span>Ver</span>
                                         </button>
-                                        <button className="button is-small is-primary">
-                                            <span className="icon">
-                                                <i className="fas fa-edit"></i>
-                                            </span>
-                                            <span>Editar</span>
-                                        </button>
+                                        
                                         <button className="button is-small is-danger">
                                             <span className="icon">
                                                 <i className="fas fa-file-alt"></i>

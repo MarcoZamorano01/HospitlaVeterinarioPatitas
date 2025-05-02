@@ -6,7 +6,7 @@ const Header = () => {
     return (
         <header>
             <nav className="navbar is-primary" id="Barra">
-                <a className="navbar-item" href="/" title="Inicio">
+                <a className="navbar-item" href="/mascotasPendientes" title="Inicio">
                     <img
                         src={logo}
                         alt="Logo Chapacos Proactivos"
